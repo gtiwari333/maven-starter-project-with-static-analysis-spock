@@ -21,11 +21,13 @@
 ### SonarQube scan
 
 Run sonarqube server using docker
-`docker run -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest`
+
+    docker run -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
 
 Perform scan:
-`mvnw sonar:sonar`
-mvnw sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
+
+    ./mvnw sonar:sonar
+    ./mvnw sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
 
 View Reports in SonarQube web ui:
 
@@ -38,15 +40,17 @@ View Reports in SonarQube web ui:
 
 
 #### Running unit tests only (it uses maven surefire plugin)
-`mvnw  compiler:testCompile resources:testResources  surefire:test`
+
+    ./mvnw  compiler:testCompile resources:testResources  surefire:test
 #### Running integration tests only (it uses maven-failsafe-plugin)
-`mvnw  compiler:testCompile resources:testResources  failsafe:integration-test`
+
+    ./mvnw  compiler:testCompile resources:testResources  failsafe:integration-test
 
 
 ### Dependency/plugin version checker
 
-    mvnw versions:display-dependency-updates
-    mvnw versions:display-plugin-updates
+    ./mvnw versions:display-dependency-updates
+    ./mvnw versions:display-plugin-updates
 
 ## Future plan:
 

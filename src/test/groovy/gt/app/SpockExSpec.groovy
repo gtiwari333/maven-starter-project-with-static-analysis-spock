@@ -7,9 +7,7 @@ class SpockExSpec extends Specification {
 
     def 'test1'() {
         given:
-        var p = PojoA.builder()
-            .firstName("Bob").age(2)
-            .build()
+        var p = new PojoA("Bob", 2)
 
         when:
         String fName = p.getFirstName()

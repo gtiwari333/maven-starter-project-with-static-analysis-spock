@@ -8,7 +8,7 @@ public class Application {
 
     @SneakyThrows
     public static void main(String[] args) {
-        log.info("Application started , params: {}", args);
+        log.info("Application started , params: {}", (Object) args);
     }
 
 }
