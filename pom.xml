@@ -15,8 +15,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
-        <lombok.version>1.18.26</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.version>1.18.30</lombok.version>
         <spock.version>2.4-M1-groovy-4.0</spock.version>
 
         <!-- test properties -->
@@ -31,31 +31,30 @@
 
         <!-- plugins -->
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.2.2</maven-failsafe-plugin.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
 
 
         <!-- code quality -->
-        <archunit-junit5.version>1.0.1</archunit-junit5.version>
-        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <archunit-junit5.version>1.2.1</archunit-junit5.version>
+        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
         <checkstyle.plugin.version>3.2.2</checkstyle.plugin.version>
-        <puppycrawl.checkstyle.version>10.9.3</puppycrawl.checkstyle.version>
+        <puppycrawl.checkstyle.version>10.12.6</puppycrawl.checkstyle.version>
         <google.error-prone.compiler.version>2.18.0</google.error-prone.compiler.version>
-        <groovy.maven.plugin.version>2.1.0</groovy.maven.plugin.version>
-        <modernizer-maven-plugin.version>2.6.0</modernizer-maven-plugin.version>
-        <spotbugs.plugin.version>4.7.3.4</spotbugs.plugin.version>
+        <groovy.maven.plugin.version>3.0.2</groovy.maven.plugin.version>
+        <modernizer-maven-plugin.version>2.7.0</modernizer-maven-plugin.version>
+        <spotbugs.plugin.version>4.8.2.0</spotbugs.plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
         <sb-contrib-plugin.version>7.6.0</sb-contrib-plugin.version>
-        <owasp-dependency-check-plugin.version>8.2.1</owasp-dependency-check-plugin.version>
+        <owasp-dependency-check-plugin.version>9.0.3</owasp-dependency-check-plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.7</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -102,7 +101,7 @@
                 <!-- feeling too lazy to define my own versions.. let's use spring boot's dependency management .. -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
-                <version>3.0.6</version>
+                <version>3.2.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -144,7 +143,7 @@
                         <path>
                             <groupId>com.uber.nullaway</groupId>
                             <artifactId>nullaway</artifactId>
-                            <version>0.10.10</version>
+                            <version>0.10.18</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
