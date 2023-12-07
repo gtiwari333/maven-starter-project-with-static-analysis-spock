@@ -56,11 +56,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
         </dependency>
+        <!-- doesn't work with jlink
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+      -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -111,7 +113,18 @@
     <build>
         <finalName>${project.version}-app</finalName>
         <plugins>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <noManPages>true</noManPages>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -123,8 +136,9 @@
                         <arg>-Xlint:all,-options</arg>
                         <arg>-Xdoclint:all/protected</arg>
                         <arg>-XDcompilePolicy=simple</arg>
-                        <arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=gt.app</arg>
-
+                        <!-- doesn't work with jlink
+                      <arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=gt.app</arg>
+                        -->
                         <!-- this will fix mapstruct -->
                         <arg>-Amapstruct.defaultComponentModel=default</arg>
                         <arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
@@ -135,16 +149,18 @@
                             <artifactId>error_prone_core</artifactId>
                             <version>${google.error-prone.compiler.version}</version>
                         </path>
-                        <path>
+                        <annotationProcessorPath>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
-                        </path>
+                        </annotationProcessorPath>
+                        <!-- doesn't work with jlink
                         <path>
                             <groupId>com.uber.nullaway</groupId>
                             <artifactId>nullaway</artifactId>
                             <version>0.10.18</version>
                         </path>
+                        -->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
