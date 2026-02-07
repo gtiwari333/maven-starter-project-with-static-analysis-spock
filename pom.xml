@@ -16,8 +16,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <mapstruct.version>1.6.3</mapstruct.version>
-        <lombok.version>1.18.42</lombok.version>
-        <spock.version>2.4-M6-groovy-4.0</spock.version>
+        <spock.version>2.4-groovy-5.0</spock.version>
 
         <!-- test properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
@@ -60,6 +59,7 @@
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
             <version>4.9.8</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -93,7 +93,7 @@
             <dependency>
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-bom</artifactId>
-                <version>2.4-M6-groovy-4.0</version>
+                <version>${spock.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,7 +101,7 @@
                 <!-- feeling too lazy to define my own versions.. let's use spring boot's dependency management .. -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
-                <version>3.5.6</version>
+                <version>4.0.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -139,7 +139,6 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>com.uber.nullaway</groupId>
