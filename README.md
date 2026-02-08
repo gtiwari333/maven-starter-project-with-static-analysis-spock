@@ -1,8 +1,8 @@
 # A maven 'starter' project with BATTERIES 🔋 included
 
-## Included Plugins/Libraries:
+## Included Plugins/Libraries
 
-### Static Code Analysis:
+### Static Code Analysis
 
 - spotbugs with findsecbugs and sb-contrib
 - checkstyle
@@ -52,7 +52,7 @@ The native executable will be created in target/my-native-app (or target/my-nati
 
 ```
 
-# Simple Benchmark
+## Simple Benchmark
 
 ### Native Image
 
@@ -140,7 +140,7 @@ curl -u admin:admin -X POST "http://localhost:9000/api/users/change_password?log
     ./mvnw versions:display-dependency-updates
     ./mvnw versions:display-plugin-updates
 
-## Future plan:
+# Future plan:
 
 - docker plugin
 - add examples of a native CLI app, a lambda etc in separate branches
