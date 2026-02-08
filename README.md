@@ -78,6 +78,8 @@ user    0m0.175s
 sys     0m0.054s
 ```
 
+
+
 ## Code Quality
 
 #### The `error-prone` runs at compile time.
@@ -110,15 +112,30 @@ curl -u admin:admin -X POST "http://localhost:9000/api/users/change_password?log
 
 - if you change the password, make sure the update `-Dsonar.password=admin` when you run sonarqube next time
 
-#### Running unit tests only (it uses maven surefire plugin)
+
+
+## Run test
+
+```bash 
+# run tests only
+
+./mvnw clean test 
+
+# run test and jacoco report/check
+./mvnw clean verify
+
+```
+
+
+### Running unit tests (`**Test.java, **Spec.groovy`) only (it uses maven surefire plugin)
 
     ./mvnw  compiler:testCompile resources:testResources  surefire:test
 
-#### Running integration tests only (it uses maven-failsafe-plugin)
+### Running integration tests (`**IT`) only (it uses maven-failsafe-plugin)
 
     ./mvnw  compiler:testCompile resources:testResources  failsafe:integration-test
 
-### Dependency/plugin version checker
+## Dependency/plugin version checker
 
     ./mvnw versions:display-dependency-updates
     ./mvnw versions:display-plugin-updates

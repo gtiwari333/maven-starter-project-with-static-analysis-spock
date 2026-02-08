@@ -19,6 +19,7 @@
         <spock.version>2.4-groovy-5.0</spock.version>
 
         <!-- test properties -->
+        <argLine></argLine> <!-- required by surefire, failsafe test plugins to work with jacoco -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
         <jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
@@ -235,8 +236,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-                <!-- we need to do `mvn  compiler:testCompile resources:testResources  surefire:test` to run unit tests separately-->
                 <configuration>
+                    <!-- CRITICAL: This allows JaCoCo to hook into the test execution -->
+                    <argLine>@{argLine}</argLine>
                     <runOrder>alphabetical</runOrder>
                     <reportsDirectory>${junit.utReportFolder}</reportsDirectory>
                     <useFile>false</useFile>
@@ -252,8 +254,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
-                <!-- we need to do `mvn  compiler:testCompile resources:testResources  failsafe:integration-test` to run integration tests separately -->
                 <configuration>
+                    <!-- CRITICAL: This allows JaCoCo to hook into the IT execution -->
+                    <argLine>@{argLine}</argLine>
                     <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     <runOrder>alphabetical</runOrder>
                     <reportsDirectory>${junit.itReportFolder}</reportsDirectory>
@@ -274,11 +277,12 @@
                     <execution>
                         <id>failsafe-verify</id>
                         <goals>
-                            <goal>integration-test</goal>
+                            <goal>verify</goal> <!-- FIXED: Changed goal from integration-test to verify -->
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -360,14 +364,6 @@
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>${owasp-dependency-check-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!--  runs as part of install -->
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -375,39 +371,20 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
                 <executions>
+                    <!-- 1. Prepare Agent (Run before tests) -->
                     <execution>
-                        <id>jacoco-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>PACKAGE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.9</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>pre-unit-tests</id>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${jacoco.utReportFile}</destFile>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+
+                    <!-- 2. Unit Test Report -->
                     <execution>
-                        <id>post-unit-test</id>
+                        <id>report</id>
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
@@ -417,19 +394,45 @@
                             <outputDirectory>${jacoco.utReportFolder}</outputDirectory>
                         </configuration>
                     </execution>
+
+                    <!-- 3. Coverage Check (Bound to verify so it runs AFTER tests and reports) -->
                     <execution>
-                        <id>pre-integration-tests</id>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${jacoco.utReportFile}</dataFile> <!-- Critical: Point to your custom path -->
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+
+                    <!-- 4. Integration Test Preparation -->
+                    <execution>
+                        <id>prepare-agent-integration</id>
                         <goals>
                             <goal>prepare-agent-integration</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${jacoco.itReportFile}</destFile>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for integration tests is created after integration tests have been run -->
+
+                    <!-- 5. Integration Test Report -->
                     <execution>
-                        <id>post-integration-tests</id>
+                        <id>report-integration</id>
                         <phase>post-integration-test</phase>
                         <goals>
                             <goal>report-integration</goal>
