@@ -1,9 +1,9 @@
 package gt.app;
 
+import lombok.Generated;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -11,11 +11,15 @@ import java.util.Properties;
 public class Application {
 
     @SneakyThrows
+    @Generated //exclude from jacoco
     static void main(String[] args) {
         log.info("Application started , params: {}", (Object) args);
 
         readGitProperties();
+        printPojo(args);
+    }
 
+    protected static void printPojo(String[] args) {
         PojoA p;
         if (args.length == 0) {
             p = new PojoA("Ganesh", 24);
@@ -28,10 +32,10 @@ public class Application {
         p.country = "Nepal";
 
         log.info("PojoA: {}", p);
-
     }
 
-    public static void readGitProperties() {
+    @SneakyThrows
+    protected static void readGitProperties() {
         log.info("Reading git.properties");
         try (InputStream input = Application.class.getClassLoader()
             .getResourceAsStream("git.properties")) {
@@ -46,8 +50,6 @@ public class Application {
             } else {
                 log.error("git.properties not found!");
             }
-        } catch (IOException e) {
-            log.error("Failed to read git.properties - {}", e.getMessage(), e);
         }
     }
 }

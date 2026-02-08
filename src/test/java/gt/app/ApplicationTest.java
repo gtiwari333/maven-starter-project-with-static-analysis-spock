@@ -11,7 +11,6 @@ class ApplicationTest {
         //given
         var p = new PojoA("Bob", 2);
 
-
         //when:
         String fName = p.getFirstName();
         int age = p.getAge();
@@ -20,7 +19,6 @@ class ApplicationTest {
         assertEquals("Bob", fName, "First Name set/get works");
         assertEquals(2, age, "Age set/get works");
     }
-
 
 }
 
